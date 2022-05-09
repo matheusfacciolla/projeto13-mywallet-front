@@ -6,13 +6,13 @@ function MenuTransactions() {
     return (
         <ContainerMenu>
             <ContainerEnter>
-                <Link to='/enter' style={{ textDecoration: 'none'}}>
+                <Link to='/transaction/enter' style={{ textDecoration: 'none'}}>
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <p>Nova <br/> Entrada</p>
                 </Link>
             </ContainerEnter>
             <ContainerExit>
-                <Link to='/exit' style={{ textDecoration: 'none'}}>
+                <Link to='/transaction/exit' style={{ textDecoration: 'none'}}>
                     <ion-icon name="remove-circle-outline"></ion-icon>
                     <p>Nova <br/> Saída</p>
                 </Link>

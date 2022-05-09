@@ -1,58 +1,53 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
 import UserContext from '../../contexts/UserContext';
 
-function Enter() {
-    const { userInformation, att, setAtt, } = useContext(UserContext);
-    const [infosEnter, setInfosEnter] = useState({ value: '', description: '' });
-    const inputsEnter = handleInputsEnter();
+function NewTransaction() {
+    const { type } = useParams();
+    const { userInformation } = useContext(UserContext);
+    const [infosNewTransaction, setInfosNewTransaction] = useState({ value: '', description: '' });
+    const inputsNewTransaction = handleInputsNewTransaction();
     const navigate = useNavigate();
 
-    const ObjEnter = {
-        value: infosEnter.value,
-        description: infosEnter.description,
-        type: "enter"
+    const ObjNewTransaction = {
+        value: infosNewTransaction.value,
+        description: infosNewTransaction.description,
+        type: type
     }
-
     const config = {
         headers: {
             Authorization: `Bearer ${userInformation}`
         }
     }
-
-    console.log("CONFIGGGG2222222222",config)
-
     const URL = 'http://localhost:5000/transaction';
 
-    function handleEnter(e) {
+    function handleNewTransaction(e) {
         e.preventDefault();
-        const promise = axios.post(URL, ObjEnter, config);
+        const promise = axios.post(URL, ObjNewTransaction, config);
 
         promise.then((response) => {
-            console.log("ENTROU NA PROMISE", response.data)
-            setInfosEnter(response.data);
-            setAtt(!att);
-            navigate('/transactions');
+            setInfosNewTransaction(response.data);
+            navigate('/transaction');
         });
 
         promise.catch(error => {
-            console.log("!!!!!!!!!!!!??????????",error);
+            console.log(error);
             alert('Deu algum erro...');
         });
     }
 
-    function handleInputsEnter() {
+    function handleInputsNewTransaction() {
         return (
-            <form onSubmit={handleEnter}>
+            <form onSubmit={handleNewTransaction}>
                 <input
                     type='text'
                     placeholder='Valor'
                     name='value'
-                    value={infosEnter.value}
-                    onChange={e => setInfosEnter({ ...infosEnter, value: e.target.value })}
+                    value={infosNewTransaction.value}
+                    onChange={e => setInfosNewTransaction({ ...infosNewTransaction, value: e.target.value })}
                     disabled={false}
                     required
                 />
@@ -60,12 +55,12 @@ function Enter() {
                     type='text'
                     placeholder='Descrição'
                     name='description'
-                    value={infosEnter.description}
-                    onChange={e => setInfosEnter({ ...infosEnter, description: e.target.value })}
+                    value={infosNewTransaction.description}
+                    onChange={e => setInfosNewTransaction({ ...infosNewTransaction, description: e.target.value })}
                     disabled={false}
                     required
                 />
-                <button type='submit'>Salvar entrada</button>
+                <button type='submit'>Salvar {`${type === "enter" ? "entrada":"saida"}`}</button>
             </form>
         );
     }
@@ -73,17 +68,17 @@ function Enter() {
     return (
         <ContainerContent>
             <Header>
-                <h2>Nova entrada</h2>
+                <h2>Nova {`${type === "enter" ? "entrada":"saida"}`}</h2>
             </Header>
 
             <ContainerInputs>
-                {inputsEnter}
+                {inputsNewTransaction}
             </ContainerInputs>
         </ContainerContent>
     );
 }
 
-export default Enter;
+export default NewTransaction;
 
 const ContainerContent = styled.div`
     width: 100%;

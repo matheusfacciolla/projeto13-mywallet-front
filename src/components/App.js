@@ -5,8 +5,7 @@ import UserContext from '../contexts/UserContext';
 import Login from './Login';
 import Register from './Register';
 import Transactions from './transactions/Transactions';
-import Enter from './transactions/Enter';
-import Exit from './transactions/Exit';
+import NewTransaction from './transactions/NewTransaction'
 import GlobalStyle from '../assets/GlobalStyle';
 
 function App() {
@@ -15,15 +14,13 @@ function App() {
 
     const [userInformation, setUserInformation] = useState(tokenStorage);
     const [userName, setUserName] = useState("");
-    const [att, setAtt] = useState(false);
 
-    const contextValue = { userInformation, setUserInformation, userName, setUserName, att, setAtt };
+    const contextValue = { userInformation, setUserInformation, userName, setUserName };
 
 
     useEffect(() => {
         if (tokenStorage) {
             setUserInformation(tokenStorage);
-            console.log(userInformation)
         }
     }, []);
 
@@ -36,8 +33,7 @@ function App() {
                         <Route path='/' element={<Login />} />
                         <Route path='/sign-up' element={<Register />} />
                         <Route path='/transaction' element={<Transactions />} />
-                        <Route path='/enter' element={<Enter />} />
-                        <Route path='/exit' element={<Exit />} />
+                        <Route path='/transaction/:type' element={<NewTransaction />} />
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>

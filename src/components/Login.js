@@ -15,8 +15,6 @@ function Login() {
         email: infosLogin.email,
         password: infosLogin.password
     }
-    console.log("OBJ??", ObjLogin)
-
     const URL = 'http://localhost:5000/';
 
     function handleLogin(e) {
@@ -24,11 +22,9 @@ function Login() {
         const promise = axios.post(URL, ObjLogin);
 
         promise.then((response) => {
-            console.log("ENTROU?????????????????????")
             setUserInformation(response.data.token);
-            setUserName(response.data.name)
-            console.log("SETINFORMATION", response.data)
-            const user = JSON.stringify(response.data.token)
+            setUserName(response.data.name);
+            const user = JSON.stringify(response.data.token);
             localStorage.setItem('token', user);
             navigate('/transaction');
         });
@@ -75,7 +71,7 @@ function Login() {
                 {inputsLogin}
             </ContainerInputs>
 
-            <Link to='/sign-up'>
+            <Link to='/sign-up' style={{ textDecoration: 'none'}}>
                 <p>Primeira vez? Cadastre-se!</p>
             </Link>
         </ContainerContent>
@@ -101,7 +97,6 @@ const ContainerContent = styled.div`
         line-height: 18px;
         color: #FFFFFF;
         text-align: center;
-        text-decoration-line: underline;
     }
 `;
 

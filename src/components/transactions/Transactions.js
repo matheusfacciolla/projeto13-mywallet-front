@@ -8,35 +8,28 @@ import MenuTransactions from './MenuTransactions';
 
 function Transactions() {
 
-    const [transactions, setTransactions, att] = useState([]);
+    const [transactions, setTransactions ] = useState([]);
 
     const { userInformation, setUserInformation, userName } = useContext(UserContext);
-    console.log("INFOOO", userInformation)
-    const totalValue = total();
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("INFOOO2222222222222", userInformation)
         const config = {
             headers: {
                 Authorization: `Bearer ${userInformation}`
             }
         }
-        console.log("CONFIGGGG1111111", config)
-
         const URL = 'http://localhost:5000/transaction';
-
         const promise = axios.get(URL, config);
 
         promise.then((response) => {
-            console.log("data -> transações", response.data)
             setTransactions(response.data);
         });
         promise.catch(error => {
             console.log(error);
             alert("Deu algum erro...");
         });
-    }, [att]);
+    }, []);
 
     function logOut() {
         if (window.confirm("Você deseja se deslogar?")) {
@@ -47,15 +40,24 @@ function Transactions() {
         }
     }
 
-    function total() {
-        console.log("TAL DAS TRANSAÇÕES", transactions)
-        let total = 0;
+    function Total() {      
+        const colorEnter = '#03AC00';
+        const colorExit = '#C70000';
+
+        let totalValue = 0;
         transactions.forEach((transaction) => {
             transaction.type === 'enter' ?
-                total += transaction.value
+                totalValue += parseInt(transaction.value)
                 :
-                total -= transaction.value
+                totalValue -= parseInt(transaction.value)
         });
+
+        return (
+            <Footer color={totalValue >= 0 ? colorEnter : colorExit}>
+                <p>SALDO:</p>
+                <p>{totalValue}</p>
+            </Footer>
+        );
     }
 
     return (
@@ -77,7 +79,7 @@ function Transactions() {
                 }
             </ContainerMain>
             <Footer>
-                <p>{totalValue}</p>
+                <Total />
             </Footer>
             <MenuTransactions />
         </ContainerContent>
@@ -89,13 +91,12 @@ function UserTransactions(props) {
     const { info } = props
     const colorEnter = '#03AC00';
     const colorExit = '#C70000';
-    console.log("FALA DELE", info.type)
 
     return (
-        <ContainerTransactions>
+        <ContainerTransactions color={info.type === "enter" ? colorEnter : colorExit}>
             <p>{info.date}</p>
             <p>{info.description}</p>
-            <p color={info.type == "enter" ? colorEnter : colorExit} >{info.value}</p>
+            <p >{info.value}</p>
         </ContainerTransactions>
     );
 }
@@ -138,12 +139,11 @@ const Header = styled.div`
 `;
 
 const ContainerMain = styled.div`
-    display: flex;
-    flex-direction: column;
     width: 326px;
-    height: 446px;
+    height: 420px;
+    overflow-y: scroll;
     background: #FFFFFF;
-    border-radius: 5px;
+    border-radius: 5px 5px 0px 0px;
 `;
 
 const ContainerEmpty = styled.div`
@@ -153,40 +153,75 @@ const ContainerEmpty = styled.div`
     font-size: 20px;
     line-height: 23px;
     text-align: center;
+    align-items: center;
     color: #868686;
+    margin-top: 200px;
 `;
 
 const ContainerTransactions = styled.div`
     display: flex;
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
     line-height: 23px;
     margin-top: 23px;
-    color: #868686;
-
-    p {
-        margin-left: 10px;
-    }
 
     p:first-child {
         margin-left: 13px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #C6C6C6;
+    }
+
+    p:nth-child(2) {
+        margin-left: 10px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000000;
     }
 
     p:last-child {
         margin-left: auto;
         margin-right: 13px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
         color: ${props => props.color};
     }
 `;
 
 const Footer = styled.div`
-    margin-right: 0;
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    color: #868686;
+    display: flex;
+    justify-content: space-between;
+    width: 326px;
+    height: 40px;
+    background-color: white;
+    border-radius: 0 0 5px 5px;
+
+    p {
+        margin-left: 13px;
+        margin-right: 13px;
+        margin-top: 13px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 20px;
+        
+    }
+
+    p:last-child {
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 20px;
+        color: ${props => props.color};
+    }
 `;

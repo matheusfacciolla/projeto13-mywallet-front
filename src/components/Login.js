@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
 
 function Login() {
-    const { setUserInformation } = useContext(UserContext);
+    const { setUserInformation, setUserName } = useContext(UserContext);
     const [infosLogin, setInfosLogin] = useState({ email: '', password: '' });
     const inputsLogin = handleInputsLogin();
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Login() {
         password: infosLogin.password
     }
 
-    const URL = 'https://http://localhost:3000/';
+    const URL = 'http://localhost:5000/sign-in';
 
     function handleLogin(e) {
         e.preventDefault();
@@ -24,9 +24,10 @@ function Login() {
 
         promise.then((response) => {
             setUserInformation(response.data);
+            setUserName(response.data.name)
             const user = JSON.stringify(response.data)
             localStorage.setItem('token', user);
-            navigate('/transacoes');
+            navigate('/transaction');
         });
 
         promise.catch(error => {
@@ -71,7 +72,7 @@ function Login() {
                 {inputsLogin}
             </ContainerInputs>
 
-            <Link to='/cadastro'>
+            <Link to='/sign-up'>
                 <p>Primeira vez? Cadastre-se!</p>
             </Link>
         </ContainerContent>

@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ function Enter() {
         description: infosEnter.description
     }
 
-    const URL = 'http://localhost:3000/transacoes';
+    const URL = 'http://localhost:5000/transaction';
 
     function handleEnter(e) {
         e.preventDefault();
@@ -28,6 +28,7 @@ function Enter() {
         });
 
         promise.catch(error => {
+            console.log(error);
             alert('Deu algum erro...');
         });
     }

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
 
+import axios from 'axios';
 import styled from 'styled-components';
 
 function Register() {
@@ -18,7 +18,7 @@ function Register() {
         confirmedPassword: infosRegister.confirmedPassword
     }
 
-    const URL = 'https://http://localhost:3000/cadastro';
+    const URL = 'http://localhost:5000/sign-up';
 
     function handleRegister(e) {
         e.preventDefault();

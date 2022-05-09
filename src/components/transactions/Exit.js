@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ function Exit() {
         description: infosExit.description
     }
 
-    const URL = 'http://localhost:3000/transacoes';
+    const URL = 'http://localhost:5000/transaction';
 
     function handleExit(e) {
         e.preventDefault();
@@ -24,10 +24,11 @@ function Exit() {
 
         promise.then((response) => {
             setInfosExit(response.data);
-            navigate('/transacoes');
+            navigate('/transaction');
         });
 
         promise.catch(error => {
+            console.log(error);
             alert('Deu algum erro...');
         });
     }

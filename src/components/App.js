@@ -14,8 +14,9 @@ function App() {
     const tokenStorage = JSON.parse(localStorage.getItem('token'));
 
     const [userInformation, setUserInformation] = useState(tokenStorage);
+    const [userName, setUserName] = useState("");
 
-    const contextValue = { userInformation, setUserInformation };
+    const contextValue = { userInformation, setUserInformation, userName, setUserName };
 
 
     useEffect(() => {
@@ -31,10 +32,10 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path='/' element={<Login />} />
-                        <Route path='/cadastro' element={<Register />} />
-                        <Route path='/transacoes' element={<Transactions />} />
-                        <Route path='/entrada' element={<Enter />} />
-                        <Route path='/saida' element={<Exit />} />
+                        <Route path='/sign-up' element={<Register />} />
+                        <Route path='/transaction' element={<Transactions />} />
+                        <Route path='/enter' element={<Enter />} />
+                        <Route path='/exit' element={<Exit />} />
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>

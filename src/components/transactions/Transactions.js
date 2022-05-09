@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -9,7 +10,8 @@ function Transactions() {
 
     const [transactions, setTransactions] = useState([]);
 
-    const { userInformation } = useContext(UserContext);
+    const { userInformation, setUserInformation, userName } = useContext(UserContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const config = {
@@ -18,7 +20,7 @@ function Transactions() {
             }
         }
 
-        const URL = 'https://http://localhost:3000/';
+        const URL = 'http://localhost:5000/transaction';
 
         const promise = axios.get(URL, config);
 
@@ -26,15 +28,25 @@ function Transactions() {
             setTransactions(response.data);
         });
         promise.catch(error => {
-            alert("Deu algum erro no cadastro...");
+            console.log(error);
+            alert("Deu algum erro...");
         });
     }, []);
+
+    function logOut() {
+        if (window.confirm("Você deseja se deslogar?")) {
+            window.localStorage.removeItem('user');
+            window.localStorage.clear('user');
+            setUserInformation(null);
+            navigate("/");
+        }
+    }
 
     return (
         <ContainerContent>
             <Header>
-                <h2>Olá Fulano</h2>
-                <ion-icon name="exit-outline"></ion-icon>
+                <h2>{`Olá ${userName}`}</h2>
+                <ion-icon name="exit-outline" onClick={() => { logOut() }}></ion-icon>
             </Header>
             <ContainerTransactions>
                 {
@@ -44,7 +56,7 @@ function Transactions() {
                         </>
                         :
                         <ContainerEmpty>
-                            <p>Não há registros de <br/> entrada ou saída</p>
+                            <p>Não há registros de <br /> entrada ou saída</p>
                         </ContainerEmpty>
                 }
             </ContainerTransactions>
@@ -55,7 +67,7 @@ function Transactions() {
 
 function UserTransactions(props) {
 
-    const { info } = props
+    //const { info } = props
 }
 
 export default Transactions;

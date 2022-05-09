@@ -1,34 +1,45 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
-//import UserContext from '../contexts/UserContext';
+import UserContext from '../../contexts/UserContext';
 
 function Enter() {
-    //const { setUserInformation } = useContext(UserContext);
+    const { userInformation, att, setAtt, } = useContext(UserContext);
     const [infosEnter, setInfosEnter] = useState({ value: '', description: '' });
     const inputsEnter = handleInputsEnter();
     const navigate = useNavigate();
 
     const ObjEnter = {
         value: infosEnter.value,
-        description: infosEnter.description
+        description: infosEnter.description,
+        type: "enter"
     }
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${userInformation}`
+        }
+    }
+
+    console.log("CONFIGGGG2222222222",config)
 
     const URL = 'http://localhost:5000/transaction';
 
     function handleEnter(e) {
         e.preventDefault();
-        const promise = axios.post(URL, ObjEnter);
+        const promise = axios.post(URL, ObjEnter, config);
 
         promise.then((response) => {
+            console.log("ENTROU NA PROMISE", response.data)
             setInfosEnter(response.data);
-            navigate('/transacoes');
+            setAtt(!att);
+            navigate('/transactions');
         });
 
         promise.catch(error => {
-            console.log(error);
+            console.log("!!!!!!!!!!!!??????????",error);
             alert('Deu algum erro...');
         });
     }

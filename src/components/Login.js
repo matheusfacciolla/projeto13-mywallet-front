@@ -15,24 +15,27 @@ function Login() {
         email: infosLogin.email,
         password: infosLogin.password
     }
+    console.log("OBJ??", ObjLogin)
 
-    const URL = 'http://localhost:5000/sign-in';
+    const URL = 'http://localhost:5000/';
 
     function handleLogin(e) {
         e.preventDefault();
         const promise = axios.post(URL, ObjLogin);
 
         promise.then((response) => {
-            setUserInformation(response.data);
+            console.log("ENTROU?????????????????????")
+            setUserInformation(response.data.token);
             setUserName(response.data.name)
-            const user = JSON.stringify(response.data)
+            console.log("SETINFORMATION", response.data)
+            const user = JSON.stringify(response.data.token)
             localStorage.setItem('token', user);
             navigate('/transaction');
         });
 
         promise.catch(error => {
             console.log(error);
-            alert('Usuário ou senha incorretos...');
+            alert('Usuário ou senha incorretos...1111');
         });
     }
 

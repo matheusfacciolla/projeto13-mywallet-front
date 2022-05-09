@@ -8,30 +8,35 @@ import MenuTransactions from './MenuTransactions';
 
 function Transactions() {
 
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions, att] = useState([]);
 
     const { userInformation, setUserInformation, userName } = useContext(UserContext);
+    console.log("INFOOO", userInformation)
+    const totalValue = total();
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("INFOOO2222222222222", userInformation)
         const config = {
             headers: {
-                Authorization: `Bearer ${userInformation.token}`
+                Authorization: `Bearer ${userInformation}`
             }
         }
+        console.log("CONFIGGGG1111111", config)
 
         const URL = 'http://localhost:5000/transaction';
 
         const promise = axios.get(URL, config);
 
         promise.then((response) => {
+            console.log("data -> transações", response.data)
             setTransactions(response.data);
         });
         promise.catch(error => {
             console.log(error);
             alert("Deu algum erro...");
         });
-    }, []);
+    }, [att]);
 
     function logOut() {
         if (window.confirm("Você deseja se deslogar?")) {
@@ -42,13 +47,24 @@ function Transactions() {
         }
     }
 
+    function total() {
+        console.log("TAL DAS TRANSAÇÕES", transactions)
+        let total = 0;
+        transactions.forEach((transaction) => {
+            transaction.type === 'enter' ?
+                total += transaction.value
+                :
+                total -= transaction.value
+        });
+    }
+
     return (
         <ContainerContent>
             <Header>
-                <h2>{`Olá ${userName}`}</h2>
+                <h2>{`Olá, ${userName}`}</h2>
                 <ion-icon name="exit-outline" onClick={() => { logOut() }}></ion-icon>
             </Header>
-            <ContainerTransactions>
+            <ContainerMain>
                 {
                     transactions.length > 0 ?
                         <>
@@ -59,7 +75,10 @@ function Transactions() {
                             <p>Não há registros de <br /> entrada ou saída</p>
                         </ContainerEmpty>
                 }
-            </ContainerTransactions>
+            </ContainerMain>
+            <Footer>
+                <p>{totalValue}</p>
+            </Footer>
             <MenuTransactions />
         </ContainerContent>
     );
@@ -67,7 +86,18 @@ function Transactions() {
 
 function UserTransactions(props) {
 
-    //const { info } = props
+    const { info } = props
+    const colorEnter = '#03AC00';
+    const colorExit = '#C70000';
+    console.log("FALA DELE", info.type)
+
+    return (
+        <ContainerTransactions>
+            <p>{info.date}</p>
+            <p>{info.description}</p>
+            <p color={info.type == "enter" ? colorEnter : colorExit} >{info.value}</p>
+        </ContainerTransactions>
+    );
 }
 
 export default Transactions;
@@ -107,11 +137,9 @@ const Header = styled.div`
     }
 `;
 
-const ContainerTransactions = styled.div`
+const ContainerMain = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: 326px;
     height: 446px;
     background: #FFFFFF;
@@ -125,5 +153,40 @@ const ContainerEmpty = styled.div`
     font-size: 20px;
     line-height: 23px;
     text-align: center;
+    color: #868686;
+`;
+
+const ContainerTransactions = styled.div`
+    display: flex;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    margin-top: 23px;
+    color: #868686;
+
+    p {
+        margin-left: 10px;
+    }
+
+    p:first-child {
+        margin-left: 13px;
+    }
+
+    p:last-child {
+        margin-left: auto;
+        margin-right: 13px;
+        color: ${props => props.color};
+    }
+`;
+
+const Footer = styled.div`
+    margin-right: 0;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
     color: #868686;
 `;

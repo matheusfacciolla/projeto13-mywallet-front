@@ -15,13 +15,15 @@ function App() {
 
     const [userInformation, setUserInformation] = useState(tokenStorage);
     const [userName, setUserName] = useState("");
+    const [att, setAtt] = useState(false);
 
-    const contextValue = { userInformation, setUserInformation, userName, setUserName };
+    const contextValue = { userInformation, setUserInformation, userName, setUserName, att, setAtt };
 
 
     useEffect(() => {
         if (tokenStorage) {
             setUserInformation(tokenStorage);
+            console.log(userInformation)
         }
     }, []);
 

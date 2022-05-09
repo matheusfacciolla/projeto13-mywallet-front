@@ -1,26 +1,33 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
-//import UserContext from '../contexts/UserContext';
+import UserContext from '../../contexts/UserContext';
 
 function Exit() {
-    //const { setUserInformation } = useContext(UserContext);
+    const { userInformation } = useContext(UserContext);
     const [infosExit, setInfosExit] = useState({ value: '', description: '' });
     const inputsExit = handleInputsExit();
     const navigate = useNavigate();
 
     const ObjExit = {
         value: infosExit.value,
-        description: infosExit.description
+        description: infosExit.description,
+        type: "exit"
+    }
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${userInformation}`
+        }
     }
 
     const URL = 'http://localhost:5000/transaction';
 
     function handleExit(e) {
         e.preventDefault();
-        const promise = axios.post(URL, ObjExit);
+        const promise = axios.post(URL, ObjExit, config);
 
         promise.then((response) => {
             setInfosExit(response.data);

@@ -133,11 +133,13 @@ table {
     box-sizing: border-box;
 }
 body {
-  background: #E5E5E5;
+  background: #8C11BE;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Raleway', sans-serif;
+  font-family: 'Saira Stencil One', cursive;
 }
 `;
- 
+
 export default GlobalStyle;

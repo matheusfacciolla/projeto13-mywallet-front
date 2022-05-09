@@ -3,82 +3,75 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import UserContext from '../contexts/UserContext';
+//import UserContext from '../contexts/UserContext';
 
-function Login() {
-    const { setUserInformation } = useContext(UserContext);
-    const [infosLogin, setInfosLogin] = useState({ email: '', password: '' });
-    const inputsLogin = handleInputsLogin();
+function Enter() {
+    //const { setUserInformation } = useContext(UserContext);
+    const [infosEnter, setInfosEnter] = useState({ value: '', description: '' });
+    const inputsEnter = handleInputsEnter();
     const navigate = useNavigate();
 
-    const ObjLogin = {
-        email: infosLogin.email,
-        password: infosLogin.password
+    const ObjEnter = {
+        value: infosEnter.value,
+        description: infosEnter.description
     }
 
-    const URL = 'https://http://localhost:3000/';
+    const URL = 'http://localhost:3000/transacoes';
 
-    function handleLogin(e) {
+    function handleEnter(e) {
         e.preventDefault();
-        const promise = axios.post(URL, ObjLogin);
+        const promise = axios.post(URL, ObjEnter);
 
         promise.then((response) => {
-            setUserInformation(response.data);
-            const user = JSON.stringify(response.data)
-            localStorage.setItem('token', user);
+            setInfosEnter(response.data);
             navigate('/transacoes');
         });
 
         promise.catch(error => {
-            console.log(error);
-            alert('Usuário ou senha incorretos...');
+            alert('Deu algum erro...');
         });
     }
 
-    function handleInputsLogin() {
+    function handleInputsEnter() {
         return (
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleEnter}>
                 <input
-                    type='email'
-                    placeholder='email'
-                    name='email'
-                    value={infosLogin.email}
-                    onChange={e => setInfosLogin({ ...infosLogin, email: e.target.value })}
+                    type='text'
+                    placeholder='Valor'
+                    name='value'
+                    value={infosEnter.value}
+                    onChange={e => setInfosEnter({ ...infosEnter, value: e.target.value })}
                     disabled={false}
                     required
                 />
                 <input
-                    type='password'
-                    placeholder='senha'
-                    name='password'
-                    value={infosLogin.senha}
-                    onChange={e => setInfosLogin({ ...infosLogin, password: e.target.value })}
+                    type='text'
+                    placeholder='Descrição'
+                    name='description'
+                    value={infosEnter.description}
+                    onChange={e => setInfosEnter({ ...infosEnter, description: e.target.value })}
                     disabled={false}
                     required
                 />
-                <button type='submit'>Entrar</button>
+                <button type='submit'>Salvar entrada</button>
             </form>
         );
     }
 
     return (
         <ContainerContent>
-            <ContainerLogo>
-                <h1>MyWallet</h1>
-            </ContainerLogo>
+            <Header>
+                <h2>Nova entrada</h2>
+            </Header>
 
             <ContainerInputs>
-                {inputsLogin}
+                {inputsEnter}
             </ContainerInputs>
-
-            <Link to='/cadastro'>
-                <p>Primeira vez? Cadastre-se!</p>
-            </Link>
         </ContainerContent>
     );
 }
 
-export default Login;
+export default Enter;
 
 const ContainerContent = styled.div`
     width: 100%;
@@ -86,7 +79,6 @@ const ContainerContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 180px;
     background: #8C11BE;
 
     p {
@@ -101,18 +93,22 @@ const ContainerContent = styled.div`
     }
 `;
 
-const ContainerLogo = styled.div`
-    h1 {
-        width: 147px;
-        height: 50px;
-        font-family: 'Saira Stencil One';
+const Header = styled.div`
+    width: 100%;
+    margin-bottom: 40px;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #8C11BE;
+
+    h2 {
+        font-family: 'Raleway';
         font-style: normal;
-        font-weight: 400;
-        font-size: 32px;
-        line-height: 50px;
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 31px;
         color: #FFFFFF;
-        text-align: center;
-        margin-bottom: 24px;
     }
 `;
 

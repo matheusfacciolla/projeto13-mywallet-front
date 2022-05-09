@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import Login from './Login';
 import Register from './Register';
-import Transactions from './Transactions';
+import Transactions from './transactions/Transactions';
+import Enter from './transactions/Enter';
+import Exit from './transactions/Exit';
 import GlobalStyle from '../assets/GlobalStyle';
 
 function App() {
@@ -30,7 +32,9 @@ function App() {
                     <Routes>
                         <Route path='/' element={<Login />} />
                         <Route path='/cadastro' element={<Register />} />
-                        <Route path='/Hoje' element={<Transactions />} />
+                        <Route path='/transacoes' element={<Transactions />} />
+                        <Route path='/entrada' element={<Enter />} />
+                        <Route path='/saida' element={<Exit />} />
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>

@@ -18,7 +18,7 @@ function Register() {
         confirmedPassword: infosRegister.confirmedPassword
     }
 
-    const URL = 'http://localhost:5000/sign-up';
+    const URL = 'https://mywallet-drivenproject.herokuapp.com/sign-up';
 
     function handleRegister(e) {
         e.preventDefault();

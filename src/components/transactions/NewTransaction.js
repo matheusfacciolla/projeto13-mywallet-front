@@ -22,7 +22,7 @@ function NewTransaction() {
             Authorization: `Bearer ${userInformation}`
         }
     }
-    const URL = 'http://localhost:5000/transaction';
+    const URL = 'https://mywallet-drivenproject.herokuapp.com/transaction';
 
     function handleNewTransaction(e) {
         e.preventDefault();
@@ -134,7 +134,7 @@ const ContainerInputs = styled.div`
         font-weight: 400;
         font-size: 19.976px;
         line-height: 25px;
-        color: #DBDBDB;
+        color: #000000;
         padding-left: 14px;
         box-shadow: 0 0 0 0;
         outline: 0;

@@ -15,7 +15,7 @@ function Login() {
         email: infosLogin.email,
         password: infosLogin.password
     }
-    const URL = 'http://localhost:5000/';
+    const URL = 'https://mywallet-drivenproject.herokuapp.com/';
 
     function handleLogin(e) {
         e.preventDefault();
@@ -31,7 +31,7 @@ function Login() {
 
         promise.catch(error => {
             console.log(error);
-            alert('Usuário ou senha incorretos...1111');
+            alert('Usuário ou senha incorretos...');
         });
     }
 
@@ -81,12 +81,12 @@ function Login() {
 export default Login;
 
 const ContainerContent = styled.div`
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 180px;
+    justify-content: center;
     background: #8C11BE;
 
     p {
@@ -130,7 +130,7 @@ const ContainerInputs = styled.div`
         font-weight: 400;
         font-size: 19.976px;
         line-height: 25px;
-        color: #DBDBDB;
+        color: #000000;
         padding-left: 14px;
         box-shadow: 0 0 0 0;
         outline: 0;

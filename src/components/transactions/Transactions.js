@@ -19,7 +19,7 @@ function Transactions() {
                 Authorization: `Bearer ${userInformation}`
             }
         }
-        const URL = 'http://localhost:5000/transaction';
+        const URL = 'https://mywallet-drivenproject.herokuapp.com/transaction';
         const promise = axios.get(URL, config);
 
         promise.then((response) => {
@@ -104,13 +104,12 @@ function UserTransactions(props) {
 export default Transactions;
 
 const ContainerContent = styled.div`
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background: #8C11BE;
+    height: 100vh;
 
     h2 {
         font-family: 'Raleway';
